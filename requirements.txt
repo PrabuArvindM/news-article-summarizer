@@ -1,0 +1,9 @@
+
+fastapi
+uvicorn
+transformers
+torch
+bert-score
+rouge-score
+PyPDF2
+python-docx
