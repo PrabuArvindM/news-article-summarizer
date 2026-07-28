@@ -2,4 +2,7 @@ venv/
 __pycache__/
 *.pyc
 .env
-uploads/.DS_Store
+uploads/
+.DS_Store
+image.png
+

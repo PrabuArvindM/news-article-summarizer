@@ -7,3 +7,11 @@ bert-score
 rouge-score
 PyPDF2
 python-docx
+pdfplumber
+pdf2image
+paddleocr
+beautifulsoup4
+requests
+pillow
+nltk
+

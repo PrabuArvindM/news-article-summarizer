@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI News Summarizer | High Precision NLP</title>
+    <meta name="description" content="Advanced AI News Article Summarizer powered by Pegasus, RoBERTa, and PaddleOCR. Created by Prabu Arvind M.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="glow-bg"></div>
+
+    <header class="navbar">
+        <div class="logo-container">
+            <div class="logo-icon">
+                <i class="fa-solid fa-newspaper"></i>
+            </div>
+            <div class="logo-text">
+                <span class="brand-title">NewsSummarizer<span class="highlight">AI</span></span>
+                <span class="brand-subtitle">High-Precision Neural Summarization</span>
+            </div>
+        </div>
+        <div class="author-badge">
+            <i class="fa-solid fa-sparkles"></i>
+            <span>Created by <strong>Prabu Arvind M</strong></span>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-chip">
+                <i class="fa-solid fa-microchip"></i>
+                <span>PaddleOCR • RoBERTa • Pegasus Transformer</span>
+            </div>
+            <h1 class="hero-title">Transform Lengthy News Articles into <span class="gradient-text">Instant Clarity</span></h1>
+            <p class="hero-desc">Extract, pre-process, and generate high-accuracy abstractive summaries from PDFs, scanned documents, text, or web links in seconds.</p>
+        </section>
+
+        <div class="app-grid">
+            <!-- Left Input Panel -->
+            <section class="card input-card">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-input-numeric"></i> Article Source</h2>
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="upload"><i class="fa-solid fa-file-arrow-up"></i> File Upload</button>
+                        <button class="tab-btn" data-tab="text"><i class="fa-solid fa-align-left"></i> Direct Text</button>
+                        <button class="tab-btn" data-tab="url"><i class="fa-solid fa-link"></i> Web Link</button>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <!-- Tab 1: File Upload -->
+                    <div class="tab-content active" id="tab-upload">
+                        <div class="dropzone" id="dropzone">
+                            <input type="file" id="file-input" accept=".pdf,.docx,.txt,.png,.jpg,.jpeg,.webp" hidden>
+                            <div class="dropzone-content">
+                                <div class="upload-icon-circle">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                                </div>
+                                <h3>Drag & Drop your document here</h3>
+                                <p>Supports PDF, DOCX, TXT, or Image OCR (.png, .jpg)</p>
+                                <button class="btn btn-secondary" onclick="document.getElementById('file-input').click()">
+                                    Browse Files
+                                </button>
+                                <div class="file-info" id="file-info" style="display: none;">
+                                    <i class="fa-solid fa-file-circle-check"></i>
+                                    <span id="file-name">filename.pdf</span>
+                                    <button type="button" class="remove-file-btn" id="remove-file"><i class="fa-solid fa-xmark"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 2: Text Input -->
+                    <div class="tab-content" id="tab-text">
+                        <textarea id="text-input" placeholder="Paste news article content here (at least 30 words)..." rows="9"></textarea>
+                        <div class="text-char-count"><span id="word-count">0</span> words</div>
+                    </div>
+
+                    <!-- Tab 3: URL Input -->
+                    <div class="tab-content" id="tab-url">
+                        <div class="input-group">
+                            <i class="fa-solid fa-globe input-icon"></i>
+                            <input type="url" id="url-input" placeholder="https://www.thehindu.com/news/article12345.ece">
+                        </div>
+                        <p class="input-help"><i class="fa-solid fa-circle-info"></i> Automatically scrapes article paragraphs and filters out ads & headers.</p>
+                    </div>
+
+                    <!-- Controls Section -->
+                    <div class="controls-grid">
+                        <div class="control-group">
+                            <label><i class="fa-solid fa-brain"></i> AI Model Engine</label>
+                            <select id="model-choice">
+                                <option value="pegasus" selected>Pegasus (google/pegasus-cnn_dailymail)</option>
+                                <option value="bart">BART (facebook/bart-large-cnn)</option>
+                            </select>
+                        </div>
+
+                        <div class="control-group">
+                            <label><i class="fa-solid fa-sliders"></i> Summary Length</label>
+                            <select id="summary-length">
+                                <option value="short">Short (Concise / Quick Read)</option>
+                                <option value="medium" selected>Medium (Balanced)</option>
+                                <option value="detailed">Detailed (Comprehensive)</option>
+                            </select>
+                        </div>
+
+                        <div class="control-group">
+                            <label><i class="fa-solid fa-list-check"></i> Summary Format</label>
+                            <select id="summary-style">
+                                <option value="paragraph" selected>Paragraph Format</option>
+                                <option value="bullet">Key Bullet Points</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary btn-block" id="summarize-btn">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Summary
+                    </button>
+                </div>
+            </section>
+
+            <!-- Right Output & Metrics Panel -->
+            <section class="card output-card">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-file-lines"></i> AI Generated Summary</h2>
+                    <div class="actions" id="summary-actions" style="display: none;">
+                        <button class="icon-btn" id="listen-btn" title="Listen to Summary"><i class="fa-solid fa-volume-high"></i></button>
+                        <button class="icon-btn" id="copy-btn" title="Copy to Clipboard"><i class="fa-solid fa-copy"></i></button>
+                        <button class="icon-btn" id="download-btn" title="Download Text"><i class="fa-solid fa-download"></i></button>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <!-- Placeholder State -->
+                    <div class="empty-state" id="empty-state">
+                        <div class="empty-illustration">
+                            <i class="fa-solid fa-feather-pointed"></i>
+                        </div>
+                        <h3>Ready to Summarize</h3>
+                        <p>Upload a file, paste article text, or enter a URL on the left to view the AI summary and accuracy metrics.</p>
+                    </div>
+
+                    <!-- Loading Spinner -->
+                    <div class="loading-state" id="loading-state" style="display: none;">
+                        <div class="pulse-spinner"></div>
+                        <h3>Processing with Neural Models...</h3>
+                        <p id="loading-status">Cleaning OCR noise & running Pegasus transformer model</p>
+                    </div>
+
+                    <!-- Summary Content -->
+                    <div class="summary-wrapper" id="summary-wrapper" style="display: none;">
+                        <div class="key-topics-banner" id="topics-banner">
+                            <i class="fa-solid fa-tags"></i>
+                            <span class="topics-title">Key Topics:</span>
+                            <div class="topics-tags" id="topics-list"></div>
+                        </div>
+
+                        <div class="summary-box" id="summary-output"></div>
+
+                        <!-- Metrics Section -->
+                        <div class="metrics-section">
+                            <h3 class="metrics-title"><i class="fa-solid fa-chart-line"></i> Model Accuracy & Performance Metrics</h3>
+                            <div class="metrics-grid">
+                                <div class="metric-card highlight">
+                                    <div class="metric-value" id="metric-rouge-l">0.00</div>
+                                    <div class="metric-label">ROUGE-L Score</div>
+                                    <div class="metric-sub">N-gram Overlap</div>
+                                </div>
+                                <div class="metric-card highlight">
+                                    <div class="metric-value" id="metric-bert">0.00</div>
+                                    <div class="metric-label">BERTScore (RoBERTa)</div>
+                                    <div class="metric-sub">Semantic Fidelity</div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-value" id="metric-compression">0%</div>
+                                    <div class="metric-label">Compression Ratio</div>
+                                    <div class="metric-sub">Text Reduction</div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-value" id="metric-time">0m</div>
+                                    <div class="metric-label">Reading Time Saved</div>
+                                    <div class="metric-sub">Efficiency Gain</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <i class="fa-solid fa-newspaper"></i> NewsSummarizer AI
+            </div>
+            <div class="footer-credit">
+                Designed & Developed with <i class="fa-solid fa-heart heart-icon"></i> by <strong>Prabu Arvind M</strong>
+            </div>
+            <div class="footer-tech">
+                <span>PaddleOCR</span> • <span>RoBERTa</span> • <span>Pegasus</span> • <span>FastAPI</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
